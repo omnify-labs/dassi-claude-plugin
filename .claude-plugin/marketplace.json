@@ -1,0 +1,27 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "dassi",
+  "description": "Drive the Dassi Chrome extension from Claude Code — pick tabs/groups, run AI agent or browser tools.",
+  "owner": {
+    "name": "Omnify Labs",
+    "email": "team@dassi.ai",
+    "url": "https://dassi.ai"
+  },
+  "plugins": [
+    {
+      "name": "dassi",
+      "description": "Drive the Dassi Chrome extension from Claude Code. Pick tabs/groups, then run AI agent or browser tools against them.",
+      "author": {
+        "name": "Omnify Labs",
+        "email": "team@dassi.ai"
+      },
+      "category": "browser-automation",
+      "source": {
+        "source": "github",
+        "repo": "omnify-labs/dassi-claude-plugin"
+      },
+      "homepage": "https://dassi.ai",
+      "keywords": ["browser", "automation", "chrome-extension", "agent"]
+    }
+  ]
+}

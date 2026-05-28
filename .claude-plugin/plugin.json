@@ -1,0 +1,12 @@
+{
+  "name": "dassi",
+  "description": "Drive the Dassi Chrome extension from Claude Code. Pick tabs/groups, then run AI agent or browser tools against them.",
+  "version": "0.1.2",
+  "author": {
+    "name": "Omnify Labs",
+    "email": "team@dassi.ai"
+  },
+  "homepage": "https://dassi.ai",
+  "license": "MIT",
+  "keywords": ["browser", "automation", "chrome-extension", "agent"]
+}
