@@ -32,11 +32,26 @@ Each accepts `--tab <id>` OR `--group <id>` OR `--group-title <name>`, except wh
 | `open [url]` | url? | **Single-target only** (`--tab` required). Opens new tab in current group. |
 | `close` | — | Close tab. Fans out across a group = close all member tabs. |
 
+## Dev launch commands (loading a local build for testing)
+
+| Command | Args | Notes |
+|---|---|---|
+| `dassi launch` | `--label <name>` (default `dev`), `--dist <path>` (default `extension/dist`), `--chrome <path>`, `--load-mode auto\|pipe\|flag`, `--timeout <ms>` | Open a dedicated Chrome with a locally-built dev dist loaded, registered under `--label`. Then drive it by adding `--profile <label>` to any command. |
+| `dassi launch --stop [label]` / `--stop-all` | label? | Close a launched Chrome (default label `dev`). |
+| `dassi list-profiles` | `--json` | List connected Chrome instances (profiles), by `label`/id. |
+
+**How the extension is loaded** (`--load-mode`, default `auto`):
+- **Branded Google Chrome 137+** disabled the `--load-extension` flag (`ERR_BLOCKED_BY_CLIENT`), so launch installs the dist at runtime via the `Extensions.loadUnpacked` CDP command over `--remote-debugging-pipe`. Such an extension is tied to the debugging session, so launch spawns a detached helper that holds the pipe open; `--stop` kills the helper (which closes the pipe + its Chrome).
+- **Chrome for Testing / Chromium** still honour `--load-extension` (persistent) → used directly, no helper.
+- `--load-mode pipe|flag` forces a mode (e.g. `--chrome <cft> --load-mode pipe` exercises the pipe path on Chrome for Testing); `auto` detects from the binary's `--version`.
+- A freshly launched profile is **signed out** — sign in to that Chrome before `dassi run`/agent commands work in it.
+
 ## Global options
 
 | Flag | Effect |
 |---|---|
 | `--session <name>` | Daemon session name (default `default`). Selects which per-session daemon process and Unix socket the CLI connects to. Each distinct `--session` value spawns its own daemon; only one can be running at a time because they all bind the same WebSocket port (see the "Multi-tab dispatch is sequential" note below). |
+| `--profile <label>` (alias `--label`) | Target a specific connected Chrome instance (e.g. one started by `dassi launch --label qa`). Required when multiple profiles are connected. |
 | `--json` | Raw JSON output (in group fan-out: single JSON array of `{tabId, response}` entries). |
 | `--version`, `--help` | Self-explanatory. |
 
