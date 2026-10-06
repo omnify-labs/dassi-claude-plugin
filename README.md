@@ -1,59 +1,41 @@
-# dassi — Claude Code plugin
+# dassi — Claude Code plugin marketplace
 
-Drive the [Dassi](https://dassi.ai) Chrome extension from Claude Code. Pick tabs or tab groups, then run AI agent prompts or individual browser tools (navigate, click, fill, screenshot, eval, …) against them.
+Use [Dassi](https://dassi.ai) in Chrome from Claude Code: read and operate your open tabs, or delegate a browser task to Dassi and retrieve its result.
 
-This repo contains the plugin manifest, marketplace entry, and skills. The actual CLI binary that the skills invoke (`dassi`) ships separately on npm as [`@dassi_ai/cli`](https://www.npmjs.com/package/@dassi_ai/cli).
+This repo is only a marketplace entry. The plugin itself is the [`@dassi_ai/cli`](https://www.npmjs.com/package/@dassi_ai/cli) npm package, which carries the skill and the CLI it runs, so the plugin version is always the CLI version.
 
-## Prerequisites
+## Install
 
-1. **Install the dassi Chrome extension** from the [Chrome Web Store](https://chromewebstore.google.com/detail/dassi-ai-browser-agent-fo/bjcngahpcjeililljmfegmlanlpgibdi) and sign in.
-2. **Install the dassi CLI** globally:
-   ```bash
-   npm install -g @dassi_ai/cli
-   ```
-3. Verify both are working:
-   ```bash
-   dassi status
-   # → ✓ Signed in as your@email
+1. Install the Dassi Chrome extension from the [Chrome Web Store](https://chromewebstore.google.com/detail/dassi-ai-browser-agent-fo/bjcngahpcjeililljmfegmlanlpgibdi).
+2. In Claude Code:
+
+   ```text
+   /plugin marketplace add omnify-labs/dassi-claude-plugin
+   /plugin install dassi@dassi
    ```
 
-## Install the Claude Code plugin
+3. Run `/reload-plugins`, then ask: "Use Dassi to show my open browser tabs." The skill is also available as `/dassi:dassi`.
 
-```text
-/plugin marketplace add omnify-labs/dassi-claude-plugin
-/plugin install dassi@dassi
+Requires Node ≥ 20.11 and Google Chrome on the same macOS or Linux machine.
+
+## Other agents
+
+Codex, OpenCode, and Claude Code without the plugin can register the same skill with one command:
+
+```sh
+npx --yes @dassi_ai/cli@latest setup
 ```
 
-After install, reload Claude Code (`/reload-plugins`) and the two skills become available:
-
-- `/dassi:operate` — run a browser action (summarize, click, fill, screenshot, etc.) on a tab or tab group.
-- `/dassi:pick-tabs` — when the target tab(s) are ambiguous, lists open tabs/groups and asks the user to pick.
-
-## Usage examples
+## Updating
 
 ```text
-/dassi:operate take a screenshot of the active tab and save it to /tmp/shot.png
-/dassi:operate fill the email field on the signup form with test@example.com
-/dassi:operate compare the prices on the Apple group and tell me which is cheapest
-/dassi:pick-tabs the research tabs
+/plugin marketplace update dassi
+/plugin update dassi@dassi
 ```
 
 ## How it works
 
-- Each skill in this plugin resolves "which tab(s)" the user means, then shells out to the local `dassi` CLI to drive the Chrome extension over the local daemon socket.
-- The CLI talks to a long-lived background daemon at `~/.dassi/<session>.sock` (owner-only).
-- The daemon hosts a WebSocket server (`127.0.0.1:18790`) that the Chrome extension's service worker connects to.
-- No data is sent to Anthropic, Omnify Labs, or any third party by the plugin itself — all routing happens locally between the CLI, the daemon, and your Chrome.
-
-## Versions
-
-This plugin tracks the matching `@dassi_ai/cli` npm release. Current: **0.1.3**.
-
-## Source
-
-- Plugin metadata + skills: this repo (`omnify-labs/dassi-claude-plugin`)
-- CLI source: published as `@dassi_ai/cli` on npm; source visible inside the tarball
-- Chrome extension source: not open source
+The skill runs the CLI bundled in the plugin. The CLI talks to a local daemon, which the Dassi extension connects to over `127.0.0.1`. The plugin itself sends no data to Anthropic, Omnify Labs, or any third party.
 
 ## License
 
@@ -63,4 +45,4 @@ MIT — see [LICENSE](./LICENSE).
 
 - Web: https://dassi.ai
 - Email: team@dassi.ai
-- Issues for the plugin specifically: [open here](https://github.com/omnify-labs/dassi-claude-plugin/issues)
+- Issues: [open here](https://github.com/omnify-labs/dassi-claude-plugin/issues)

@@ -10,13 +10,16 @@
   "plugins": [
     {
       "name": "dassi",
-      "description": "Drive the Dassi Chrome extension from Claude Code. Pick tabs/groups, then run AI agent or browser tools against them.",
+      "description": "Use Dassi in Chrome: select a browser target, operate pages directly, or delegate a task and retrieve its result.",
       "author": {
         "name": "Omnify Labs",
         "email": "team@dassi.ai"
       },
       "category": "browser-automation",
-      "source": "./",
+      "source": {
+        "source": "npm",
+        "package": "@dassi_ai/cli"
+      },
       "homepage": "https://dassi.ai",
       "keywords": ["browser", "automation", "chrome-extension", "agent"]
     }
