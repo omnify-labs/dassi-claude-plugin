@@ -16,10 +16,7 @@
         "email": "team@dassi.ai"
       },
       "category": "browser-automation",
-      "source": {
-        "source": "github",
-        "repo": "omnify-labs/dassi-claude-plugin"
-      },
+      "source": "./",
       "homepage": "https://dassi.ai",
       "keywords": ["browser", "automation", "chrome-extension", "agent"]
     }

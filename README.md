@@ -47,7 +47,7 @@ After install, reload Claude Code (`/reload-plugins`) and the two skills become 
 
 ## Versions
 
-This plugin tracks the matching `@dassi_ai/cli` npm release. Current: **0.1.2**.
+This plugin tracks the matching `@dassi_ai/cli` npm release. Current: **0.1.3**.
 
 ## Source
 
