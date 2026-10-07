@@ -30,13 +30,13 @@ npx --yes @dassi_ai/cli@latest setup
 
 Claude Code leaves auto-update off for third-party marketplaces, so an installed plugin stays on its version until you update it. Turn auto-update on once: run `/plugin`, open the **Marketplaces** tab, select `dassi`, and choose **Enable auto-update**. New versions then install on their own.
 
-To update right now:
+To update right now, run this in a shell:
 
-```text
-/plugin update dassi@dassi
+```sh
+claude plugin update dassi@dassi
 ```
 
-Then restart Claude Code or run `/reload-plugins`.
+or, inside Claude Code, run `/plugin`, open the **Installed** tab, select `dassi`, and choose **Update now**. Then restart Claude Code or run `/reload-plugins`.
 
 If the skill tells Claude to run commands the CLI rejects, such as `dassi read-page` or `dassi click`, the installed plugin predates the npm package. The same update command replaces it.
 
