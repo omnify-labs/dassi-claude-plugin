@@ -1,0 +1,59 @@
+{
+  "name": "@dassi_ai/cli",
+  "version": "0.8.0",
+  "description": "CLI for the Dassi Chrome extension \u2014 run browser automation from the terminal",
+  "type": "module",
+  "dassi": {
+    "protocol": 4
+  },
+  "bin": {
+    "dassi": "./dassi.mjs"
+  },
+  "files": [
+    "dassi.mjs",
+    "dassi-daemon.mjs",
+    "daemon-client.mjs",
+    "dassi-shared.mjs",
+    "tool-commands.mjs",
+    "format-response.mjs",
+    "group-expansion.mjs",
+    "launch.mjs",
+    "_launch-pipe.mjs",
+    "setup.mjs",
+    "help-text.mjs",
+    ".claude-plugin/",
+    "skills/",
+    "README.md",
+    "task-result.mjs"
+  ],
+  "engines": {
+    "node": ">=20.11.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "homepage": "https://dassi.ai",
+  "bugs": {
+    "email": "team@dassi.ai"
+  },
+  "dependencies": {
+    "ws": "^8.18.0"
+  },
+  "bundledDependencies": [
+    "ws"
+  ],
+  "devDependencies": {
+    "vitest": "^4.0.16"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "prepack": "node -e \"const fs=require('fs'),f='.claude-plugin/plugin.json',m=JSON.parse(fs.readFileSync(f));m.version=require('./package.json').version;fs.writeFileSync(f,JSON.stringify(m,null,2)+'\\n')\""
+  },
+  "keywords": [
+    "dassi",
+    "cli",
+    "browser-automation",
+    "chrome-extension"
+  ],
+  "license": "MIT"
+}

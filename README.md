@@ -2,7 +2,7 @@
 
 Use [Dassi](https://dassi.ai) in Chrome from Claude Code: read and operate your open tabs, or delegate a browser task to Dassi and retrieve its result.
 
-This repo is only a marketplace entry. The plugin itself is the [`@dassi_ai/cli`](https://www.npmjs.com/package/@dassi_ai/cli) npm package, which carries the skill and the CLI it runs, so the plugin version is always the CLI version.
+This repository contains the plugin, its skill, the CLI it runs, and its bundled WebSocket dependency. Claude's directory requires a local marketplace source, so `source` points at this repository's root. The runtime files are copied unchanged from the published [`@dassi_ai/cli@0.8.0`](https://www.npmjs.com/package/@dassi_ai/cli/v/0.8.0) package. Installation does not need to download runtime dependencies.
 
 ## Install
 
@@ -23,7 +23,7 @@ Requires Node ≥ 20.11 and Google Chrome on the same macOS or Linux machine.
 Codex, OpenCode, and Claude Code without the plugin can register the same skill with one command:
 
 ```sh
-npx --yes @dassi_ai/cli@latest setup
+npx --yes @dassi_ai/cli@0.8.0 setup
 ```
 
 ## Updating
@@ -38,11 +38,21 @@ claude plugin update dassi@dassi
 
 or, inside Claude Code, run `/plugin`, open the **Installed** tab, select `dassi`, and choose **Update now**. Then restart Claude Code or run `/reload-plugins`.
 
-If the skill tells Claude to run commands the CLI rejects, such as `dassi read-page` or `dassi click`, the installed plugin predates the npm package. The same update command replaces it.
+If the skill tells Claude to run commands the CLI rejects, such as `dassi read-page` or `dassi click`, the installed plugin is outdated. The same update command replaces it.
 
 ## How it works
 
-The skill runs the CLI bundled in the plugin. The CLI talks to a local daemon, which the Dassi extension connects to over `127.0.0.1`. The plugin itself sends no data to Anthropic, Omnify Labs, or any third party.
+The skill runs the CLI bundled in the plugin. The CLI talks to a local daemon, which the Dassi extension connects to over `127.0.0.1`. Browser commands and results pass through that local connection. Results returned to Claude become part of the Claude conversation. Delegated tasks use the model configured in Dassi and its normal allowance or provider billing. Browser actions can read or change websites in the connected Chrome profile.
+
+## Privacy policy
+
+See the [Dassi privacy policy](https://dassi.ai/privacy-policy/) for data collection, processing, retention, and contact details. The CLI transport is local; the connected extension, configured model provider, and Claude process the task and relevant website content. Contact privacy@omnifylabs.com for privacy requests.
+
+## Updating the bundled release
+
+Copy the files from an exact published CLI package, including its `node_modules/ws` directory, into the repository root. Preserve this README, the marketplace manifest, and LICENSE. Keep `.claude-plugin/plugin.json` at the package version, validate with `claude plugin validate .`, and verify the skill launcher with `node skills/dassi/scripts/dassi.mjs --help`. Publish changes through a pull request. The source CLI and its tests remain in [omnify-labs/dassi/cli](https://github.com/omnify-labs/dassi/tree/main/cli).
+
+Release provenance: `@dassi_ai/cli@0.8.0`, npm tarball SHA-512 integrity `sha512-1I5F+4kp0V8K43pLtvKN9Yx6ry6SfmxoV4b2qMIQTPNePXA5/zs0qSoavWpKBVx44dswNrbaksU7hTwz1eSywA==`. Every file from that tarball except README.md is included unchanged.
 
 ## License
 
