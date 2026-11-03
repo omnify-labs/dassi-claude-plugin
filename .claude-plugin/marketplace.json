@@ -16,10 +16,7 @@
         "email": "team@dassi.ai"
       },
       "category": "browser-automation",
-      "source": {
-        "source": "npm",
-        "package": "@dassi_ai/cli"
-      },
+      "source": "./",
       "homepage": "https://dassi.ai",
       "keywords": ["browser", "automation", "chrome-extension", "agent"]
     }
